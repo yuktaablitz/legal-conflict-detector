@@ -1,0 +1,11 @@
+{
+    "arbitrator": {
+      "name": "Jane Doe",
+      "bio": "Jane Doe is an ICC arbitrator. She worked at Smith & Partners LLP from 2017–2020. She co-arbitrated a 2019 ICC arbitration with Alex Reed."
+    },
+    "lawyer": {
+      "name": "Alex Reed",
+      "bio": "Alex Reed is a senior partner at Smith & Partners LLP. He collaborated with Jane Doe during a 2019 ICC arbitration case involving MegaCorp."
+    }
+  }
+  
