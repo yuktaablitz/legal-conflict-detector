@@ -20,7 +20,7 @@ st.title("⚖️ Legal Conflict of Interest Detector")
 st.markdown("Analyze potential conflicts using IBA Arbitration Guidelines and GenAI reasoning.")
 
 # --- Neo4j connection ---
-conn = Neo4jConnection("bolt://localhost:7687", "neo4j", "welcome123")
+conn = Neo4jConnection.from_env()
 
 # --- Session state init ---
 for key in ["arb_bio", "lawyer_bio", "arb_sources", "lawyer_sources"]:

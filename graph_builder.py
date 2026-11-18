@@ -6,7 +6,7 @@ def parse_affiliations_from_bio(bio):
     return re.findall(r'[A-Z][a-z]+(?: & [A-Z][a-z]+| [A-Z][a-z]+)+ LLP', bio)
 
 def add_person_to_graph(name, bio, person_type):
-    conn = Neo4jConnection("bolt://localhost:7687", "neo4j", "welcome123")
+    conn = Neo4jConnection.from_env()
     
     conn.query("MERGE (p:Person {name: $name}) SET p.bio = $bio, p.type = $type", {
         "name": name.strip(),

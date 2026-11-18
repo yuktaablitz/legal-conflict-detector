@@ -20,9 +20,9 @@ A GenAI-powered tool to help legal professionals identify potential conflicts of
 
 - **Frontend**: Streamlit
 - **Backend**: Python
-- **Graph DB**: Neo4j (Desktop)
+- **Graph DB**: Neo4j (Desktop or Docker)
 - **AI Model**: LLaMA via Ollama (Mistral model)
-- **Libraries**: `requests`, `beautifulsoup4`, `scikit-learn`, `fpdf`, `plotly`, `fitz` (PyMuPDF), `streamlit`, `ollama`
+- **Libraries**: `requests`, `beautifulsoup4`, `scikit-learn`, `fpdf`, `plotly`, `fitz` (PyMuPDF), `pyvis`, `networkx`, `neo4j`, `streamlit`, `ollama`
 
 ---
 
@@ -47,12 +47,47 @@ A GenAI-powered tool to help legal professionals identify potential conflicts of
 
 ---
 
-## 📦 One-Click Installer
+## 🛠️ Setup
 
-Use the included `setup.sh` to install dependencies and run the app.
+You need Python 3.10+, [Ollama](https://ollama.com/download) for the local LLM, and Neo4j (Docker is easiest).
 
 ```bash
-bash setup.sh
+git clone https://github.com/yuktaablitz/legal-conflict-detector.git
+cd legal-conflict-detector
+
+# 1. Python environment
+python3 -m venv venv && source venv/bin/activate      # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+# 2. Settings (Neo4j credentials, Ollama model)
+cp .env.example .env
+
+# 3. Local LLM
+ollama pull mistral
+
+# 4. Neo4j: Docker, or Neo4j Desktop with the same credentials as .env
+docker compose up -d
+
+# 5. Run
+streamlit run app.py          # http://localhost:8501
+```
+
+Or run `bash setup.sh` to do steps 1-3 and 5 in one go (start Neo4j first).
+
+---
+
+## 📂 Project layout
+
+```
+app.py                  Streamlit UI: inputs, analysis, graph, timeline, PDF export
+bio_scraper.py          DuckDuckGo search + page scraping, bio summarised by the local LLM
+scraper.py              simpler bio scraper used by the tests
+conflict_classifier.py  LLM conflict classification (IBA guidelines), TF-IDF similarity, brief scanning, PDF report
+graph_builder.py        writes people and affiliations to Neo4j
+graph_visualizer.py     reads the graph from Neo4j and renders it with PyVis (graph.html)
+neo4j_connection.py     Neo4j driver wrapper (credentials from .env)
+data/sample_bios.json   sample bios for testing without scraping
+test_*.py               small manual checks for scraping, graph and classification
 ```
 
 ---
@@ -62,20 +97,8 @@ bash setup.sh
 - Arbitrator: `Marc Isserles`
 - Lawyer: `Jennifer Bonjean`
 
----
-
-## 📤 Deploy on GitHub
-
-1. Create a GitHub repo
-2. Add all project files
-3. Run:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/your-username/legal-conflict-detector.git
-   git push -u origin main
-   ```
+Web search results change over time; if scraping finds nothing, upload a PDF bio instead.
 
 ---
+
+*This tool supports a human conflict check. It is not legal advice.*

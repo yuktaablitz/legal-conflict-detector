@@ -1,4 +1,8 @@
+import os
+
 import ollama
+
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral")
 import re
 from fpdf import FPDF
 from datetime import datetime
@@ -35,7 +39,7 @@ What is the conflict level and why?
 """
 
     try:
-        response = ollama.chat(model="mistral", messages=[
+        response = ollama.chat(model=OLLAMA_MODEL, messages=[
             {"role": "user", "content": prompt}
         ])
         return response['message']['content']
@@ -56,7 +60,7 @@ Text:
 What is the conflict type and reasoning?
 """
     try:
-        response = ollama.chat(model="mistral", messages=[
+        response = ollama.chat(model=OLLAMA_MODEL, messages=[
             {"role": "user", "content": prompt}
         ])
         return response['message']['content']

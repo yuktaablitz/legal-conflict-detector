@@ -1,3 +1,13 @@
-beautifulsoup4
+streamlit
 requests
-openai
+beautifulsoup4
+scikit-learn
+pandas
+plotly
+fpdf
+pymupdf
+neo4j
+pyvis
+networkx
+ollama
+python-dotenv
