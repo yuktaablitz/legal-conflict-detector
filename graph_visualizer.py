@@ -3,7 +3,7 @@ import networkx as nx
 from neo4j_connection import Neo4jConnection
 
 def generate_interactive_graph(html_path="graph.html"):
-    conn = Neo4jConnection("bolt://localhost:7687", "neo4j", "welcome123")
+    conn = Neo4jConnection.from_env()
 
     # Build graph from Neo4j
     records = conn.query("MATCH (a)-[r]->(b) RETURN a.name AS from, TYPE(r) AS rel, b.name AS to")

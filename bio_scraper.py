@@ -2,7 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import unquote, urlparse, parse_qs
 import re
+import os
+
 import ollama
+
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral")
 import streamlit as st
 
 # ---- DuckDuckGo search with filtering ----
@@ -50,7 +54,7 @@ Text:
 {raw_text[:1000]}
 """
     try:
-        response = ollama.chat(model="mistral", messages=[
+        response = ollama.chat(model=OLLAMA_MODEL, messages=[
             {"role": "user", "content": prompt}
         ])
         summary = response['message']['content'].strip()

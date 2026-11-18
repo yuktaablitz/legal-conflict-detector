@@ -1,12 +1,14 @@
 #!/bin/bash
+# One-shot setup: virtual environment, Python packages, the Ollama model, then the app.
+# Needs Python 3.10+, Ollama (https://ollama.com/download) and a running Neo4j (docker compose up -d).
+set -e
 
-# Create and activate virtual environment
 python3 -m venv venv
 source venv/bin/activate
-
-# Upgrade pip and install dependencies
 pip install --upgrade pip
-pip install streamlit beautifulsoup4 requests scikit-learn fpdf plotly pymupdf neo4j ollama
+pip install -r requirements.txt
 
-# Start the app
+[ -f .env ] || cp .env.example .env
+ollama pull "${OLLAMA_MODEL:-mistral}"
+
 streamlit run app.py
